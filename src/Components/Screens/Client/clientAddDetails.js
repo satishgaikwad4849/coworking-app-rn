@@ -9,12 +9,15 @@ const ClientsAddStackScreen = ({ navigation }) => {
   const [clientName, setClientName] = useState('');
   const [mobileNumber, setMobileNumber] = useState('');
   const [whatsappNumber, setWhatsappNumber] = useState('');
-  const [email, setEmail] = useState('');
-  const [notes, setNotes] = useState('');
+  const [emailId, setEmailId] = useState('');
+  const [note, setNote] = useState('');
 
   const createClient = async () => {
+    let clientsGivenName=clientName.split(' ')[0];
+    let clientsFamilyName=clientName.split(' ')[1];
     try {
-      const clientResult = await Api.postClients(clientName, mobileNumber, whatsappNumber, email, notes);
+      let clientData = {clientsGivenName,clientsFamilyName, mobileNumber, whatsappNumber, emailId, note}
+      const clientResult = await Api.postClients(clientData);
       if (clientResult.status === "success") {
         navigation.navigate('Leads', { index: 2 });
       }
@@ -54,19 +57,19 @@ const ClientsAddStackScreen = ({ navigation }) => {
       />
 
       <TextInput
-        label="Email Address"
-        value={email}
-        onChangeText={text => setEmail(text)}
+        label="EmailId Address"
+        value={emailId}
+        onChangeText={text => setEmailId(text)}
         style={styles.input}
         theme={{ colors: { primary: '#007bff' } }}
       />
 
       <TextInput
-        label="Notes"
-        value={notes}
-        onChangeText={text => setNotes(text)}
+        label="Note"
+        value={note}
+        onChangeText={text => setNote(text)}
         multiline
-        style={[styles.input, styles.notesInput]}
+        style={[styles.input, styles.noteInput]}
         theme={{ colors: { primary: '#007bff' } }}
       />
 
@@ -94,7 +97,7 @@ const styles = StyleSheet.create({
   input: {
     marginBottom: 20,
   },
-  notesInput: {
+  noteInput: {
     height: 100,
   },
   saveButton: {

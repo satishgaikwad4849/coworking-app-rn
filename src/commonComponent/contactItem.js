@@ -11,7 +11,7 @@ const getAvatarInitials = (textString) => {
   return textSplit[0].charAt(0) + textSplit[textSplit.length - 1].charAt(0);
 };
 
-const ContactItem = ({ item, onPress, listType, onAddAction, editAction, deleteAction }) => {
+const ContactItem = ({ item, onPress, listType="Contacts", onAddAction, editAction, deleteAction }) => {
   const [visible, setVisible] = useState(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
@@ -34,6 +34,7 @@ const ContactItem = ({ item, onPress, listType, onAddAction, editAction, deleteA
 
   return (
     <TouchableOpacity style={styles.container} onPress={() => onPress(item)}>
+      {console.log(listType,"listType")}
       <List.Item
         title={`${item.givenName} ${item.familyName}`}
         description={listType === "Contacts" ? item?.phoneNumbers[0]?.number : item?.phoneNumber}
@@ -49,11 +50,18 @@ const ContactItem = ({ item, onPress, listType, onAddAction, editAction, deleteA
                   <TouchableOpacity onPress={() => { onAddAction(item); hideModal(); }}>
                     <View style={styles.addButtonContainer}>
                       <IconButton icon="plus" color="#486e75" size={40} />
-                      <Text style={styles.actionButtonText}>Add {listType}</Text>
+                      <Text style={styles.actionButtonText}>Add {listType} as a Lead</Text>
                     </View>
                   </TouchableOpacity>
                 ) : (
                   <>
+                  {listType !== 'Contacts' && (
+                  <TouchableOpacity onPress={() => { onAddAction(item); hideModal(); }}>
+                    <View style={styles.addButtonContainer}>
+                      <IconButton icon="plus" color="#486e75" size={40} />
+                      <Text style={styles.actionButtonText}>Add {listType} {listType ==='Leads'? "as a Client":""}</Text>
+                    </View>
+                  </TouchableOpacity>)}
                     <TouchableOpacity onPress={() => { handleEditAction(item); hideModal() }}>
                       <View style={styles.actionButtonContainer}>
                         <IconButton icon="account-edit" color="#486e75" size={40} />

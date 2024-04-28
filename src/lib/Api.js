@@ -89,17 +89,19 @@ class API {
     }
   }
 
-  async postClients(clientName, mobileNumber, whatsappNumber, email, notes) {
+  async postClients(client_data) {
+    let { clientsGivenName,clientsFamilyName, mobileNumber, whatsappNumber, email, note } = client_data;
     try {
       let clientData = {
         recordID: uuid.v1(),
-        givenName: clientName.split(' ')[0],
-        familyName: clientName.split(' ')[1],
+        givenName: clientsGivenName,
+        familyName: clientsFamilyName,
         phoneNumber: mobileNumber,
         whatsappNumber: whatsappNumber ?? mobileNumber,
         emailId: email,
-        notes: notes
+        note: note
       };
+      console.log(clientData,"client data api")
       const response = await axios.post(`${this.baseURL}/clients`, {
         clients: [clientData],
       }, {
@@ -109,7 +111,7 @@ class API {
     return response.data;
 
     } catch (error) {
-      console.error('Error while posting contacts:', error);
+      console.error('Error while posting clients:', error);
     }
   }
   

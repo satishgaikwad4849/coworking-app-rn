@@ -86,7 +86,29 @@ const LeadsComponent = ({ route }) => {
   };
 
 
-
+  const postClients = async (newLead) => {
+    console.log(newLead,"newLead clients")
+    try {
+      let clientData = {
+        recordID: uuid.v1(),
+        clientsGivenName: newLead.givenName,
+        clientsFamilyName: newLead.familyName,
+        phoneNumber: newLead?.phoneNumber || "",
+        whatsappNumber: newLead?.phoneNumber || "",
+        emailId: "",
+        note: ""
+      }
+      const postLeadResult = await Api.postClients(clientData)
+      if (postLeadResult.status === "success") {
+        loadClients();
+        setShowMessage(true);
+        setNameOfMessage("Lead is added as a Client")
+        setIndex(2);
+      }
+    } catch (error) {
+      console.error('Error while posting clients:', error);
+    }
+  };
 
   const loadLeads = async () => {
     try {
@@ -322,7 +344,8 @@ const LeadsComponent = ({ route }) => {
                 key={item.recordID}
                 item={item}
                 onPress={openContact}
-                onAction={loadLeads}
+                onAddAction={postClients}
+                onAction={loadClients}
                 listType={'Leads'}
                 editAction={editLead}
                 deleteAction={deleteLead}
