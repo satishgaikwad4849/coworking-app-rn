@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from 'react-native-screens/native-stack';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -15,11 +15,22 @@ import LeadsAddStackScreen from './Components/Screens/Lead/leadAddDetails';
 import ClientAddStackScreen from './Components/Screens/Client/clientAddDetails';
 import ClientDetailsStackScreen from './Components/Screens/Client/clientDetails';
 import ContentDetailsStackScreen from './Components/Screens/Content/contentDetails';
-import { PaperProvider } from 'react-native-paper';
+import { PaperProvider, IconButton } from 'react-native-paper';
+import { Button } from 'react-native';
+import HomeScreen from './Components/Screens/HomeComponent';
+import CustomHeader from './commonComponent/backButton';
+import RoomBookingComponent from './Components/Screens/RoomBooking';
+import AdminComponent from './Components/Screens/AdminScreen';
+import MembershipsComponent from './Components/Screens/Memberships';
+import EventsComponent from './Components/Screens/EventScreen';
+import NotificationsComponent from './Components/Screens/Notifications';
+import ExpensesComponent from './Components/Screens/ExpenseScreen';
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 function TabNavigator() {
+  const navigation = useNavigation();
   async function requestUserPermission() {
     const authStatus = await messaging().requestPermission();
     const enabled =
@@ -49,8 +60,16 @@ function TabNavigator() {
         name="Leads"
         component={LeadsComponent}
         options={{
+          headerTitle: "",
           tabBarIcon: ({ color, size }) => (
             <Icon name="users" size={size} color={color} />
+          ),
+          headerLeft: () => (
+            // <IconButton icon="arrow-left"  onPress={() => navigation.goBack()} style={{ position: 'absolute',
+            // top: 10,
+            // left: 10,
+            // backgroundColor: 'transparent'}} />
+            <CustomHeader title="Leads" backButtonVisible={true} onBackPress={() => navigation.goBack()} />
           ),
         }}
       />
@@ -99,10 +118,50 @@ function TabNavigator() {
 }
 
 function App() {
+  const [showHomeComponent, setShowHomeComponent] = useState(true);
   return (
     <PaperProvider>
       <NavigationContainer>
+
         <Stack.Navigator>
+          {showHomeComponent && (
+            <Stack.Screen
+              name="HomeScreen"
+              component={HomeScreen}
+              options={{ headerShown: false }}
+            />
+          )}
+          <Stack.Screen
+            name="RoomBooking"
+            component={RoomBookingComponent}
+            options={{ headerShown: true }}
+          />
+          <Stack.Screen
+            name="Memberships"
+            component={MembershipsComponent}
+            options={{ headerShown: true }}
+          />
+          <Stack.Screen
+            name="Admin"
+            component={AdminComponent}
+            options={{ headerShown: true }}
+          />
+          <Stack.Screen
+            name="Events"
+            component={EventsComponent}
+            options={{ headerShown: true }}
+          />
+          <Stack.Screen
+            name="Expenses"
+            component={ExpensesComponent}
+            options={{ headerShown: true }}
+          />
+          <Stack.Screen
+            name="Notifications"
+            component={NotificationsComponent}
+            options={{ headerShown: true }}
+          />
+
           <Stack.Screen
             name="TabNavigator"
             component={TabNavigator}
