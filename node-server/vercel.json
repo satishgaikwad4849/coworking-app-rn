@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "builds": [
+    { "src": "server", "use": "@vercel/node" } // Replace "server" with your actual backend folder name
+  ],
+  "routes": [  // Optional for API routes (see Approach 1 in previous response)
+    { "src": "/api/*.js", "dest": "/api" }
+  ]
+}
