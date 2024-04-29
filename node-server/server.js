@@ -7,8 +7,10 @@ const Contact = require('./models/contactSchema'); // Import Contact schema
 const Lead = require('./models/leadSchema');
 const Client = require('./models/clientSchema');
 const connectDB = require('./config/db');
+const dotenv = require('dotenv');
+dotenv.config(); // This loads the variables from .env into process.env
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(bodyParser.json());
 connectDB();

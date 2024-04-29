@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
-const config = require('config');
-const db = config.get('mongoURI');
+const dotenv = require('dotenv');
+dotenv.config(); // This loads the variables from .env into process.env
+
+// You can access MONGO_URI using process.env.MONGO_URI
+const db = process.env.MONGO_URI;
 
 const connectDB = async () => {
   try {
