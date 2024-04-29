@@ -16,7 +16,6 @@
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native": "^6.1.9",
     "axios": "^1.6.7",
-    "dotenv": "^16.4.5",
     "react": "18.2.0",
     "react-native": "0.73.2",
     "react-native-contacts": "^7.0.8",
