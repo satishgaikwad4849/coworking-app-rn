@@ -22,7 +22,7 @@ const ClientsAddStackScreen = ({ navigation }) => {
         navigation.navigate('Leads', { index: 2 });
       }
     } catch (error) {
-      console.error('Error while posting contacts:', error);
+      console.error('Error while posting clients:', error);
     }
   };
 

@@ -171,6 +171,7 @@ const LeadsComponent = ({ route }) => {
         },
         );
         const contacts = await Contacts.getAll();
+        console.log(contacts, "contacts")
         contacts.sort((a, b) => {
           const nameA = a.givenName.toLowerCase();
           const nameB = b.givenName.toLowerCase();

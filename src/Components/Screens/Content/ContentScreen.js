@@ -1,9 +1,19 @@
-import React from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+
+import React, { useState } from 'react';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-
+import MaterialTabs from 'react-native-material-tabs';
 const ContentComponent = ({route}) => {
+  const [searchText, setSearchText] = useState('');
+  const [selectedTab, setSelectedTab] = useState(0);
+  const handleChange = (text) => {
+    setSearchText(text);
+  };
+
+  const handleTabChange = (index) => {
+    setSelectedTab(index);
+  };
   const navigation = useNavigation();
   console.log(route?.params,"route params content")
   const { givenName } = route.params && route.params.item ? route.params.item : { givenName: "Client" };
@@ -46,20 +56,63 @@ const ContentComponent = ({route}) => {
 
   return (
     <View style={styles.container}>
+      <TextInput
+        style={styles.searchBar}
+        placeholder="Search Messages or Files"
+        onChangeText={handleChange}
+        value={searchText}
+      />
+      <MaterialTabs
+        items={['Messages', 'Files', 'Pages']}
+        selectedIndex={selectedTab}
+        onChange={handleTabChange}
+        barColor="#13897b" // Adjust bar color as needed
+        indicatorColor="#fff" // Adjust indicator color as needed
+      />
+      {selectedTab === 0 && (
+        <View style={styles.content}>
+          {/* <View style={styles.container}> */}
       <Text style={styles.tabTitle}>This is the Content tab</Text>
       <FlatList
         data={data}
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
       />
+    {/* </View> */}
+        </View>
+      )}
+      {selectedTab === 1 && (
+        <View style={styles.content}>
+          <Text>Files Content Here</Text>
+        </View>
+      )}
+       {selectedTab === 2 && (
+        <View style={styles.content}>
+          <Text>Pages Content Here</Text>
+        </View>
+      )}
     </View>
+   
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  searchBar: {
+    padding: 10,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  content: {
     padding: 20,
+  },
+  container: {
+    flex: 1,
+    // padding: 20,
     backgroundColor: '#f0f0f0',
   },
   tabTitle: {
@@ -96,5 +149,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
 
 export default ContentComponent;

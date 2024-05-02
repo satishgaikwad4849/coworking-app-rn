@@ -3,7 +3,8 @@ import uuid from 'react-native-uuid';
 
 class API {
   constructor() {
-    this.baseURL = 'http://192.168.1.109:3001/api';
+    // this.baseURL = 'http://192.168.1.109:3001/api';
+    this.baseURL = 'https://coworking-app-rn.vercel.app/api/';
     this.headers = {
       'Content-Type': 'application/json',
     };
@@ -11,7 +12,7 @@ class API {
 
   async getContacts(){
     try {
-      const response = await axios.get('http://192.168.1.109:3001/api/contacts');
+      const response = await axios.get(`${this.baseURL}/contacts`);
     return response.data;
     } catch (error) {
       console.error('Error while getting contacts:', error);
@@ -35,7 +36,7 @@ class API {
 
   async getLeads() {
     try {
-      const response = await axios.get('http://192.168.1.109:3001/api/leads');
+      const response = await axios.get(`${this.baseURL}/leads`);
     return response.data;
     } catch (error) {
       console.error('Error while getting leads:', error);
@@ -82,7 +83,7 @@ class API {
 
   async getClients(){
     try {
-      const response = await axios.get('http://192.168.1.109:3001/api/clients');
+      const response = await axios.get(`${this.baseURL}/clients`);
     return response.data;
     } catch (error) {
       console.error('Error while getting clients:', error);
@@ -117,7 +118,7 @@ class API {
   
   async  editClients(recordID,data){
     try {
-        const response = await axios.put(`http://192.168.1.109:3001/api/clients/${recordID}`, { client: data }, {
+        const response = await axios.put(`${this.baseURL}/clients/${recordID}`, { client: data }, {
             headers: this.headers,
           })
         return response.data;
@@ -139,7 +140,7 @@ class API {
 
   async  searchLeads(searchText){
     try {
-        const response = await axios.get(`http://192.168.1.109:3001/api/search/leads?search=${searchText}`)
+        const response = await axios.get(`${this.baseURL}/search/leads?search=${searchText}`)
         return response.data;
   
       } catch (error) {
@@ -149,7 +150,7 @@ class API {
 
   async  searchClients(searchText){
     try {
-        const response = await axios.get(`http://192.168.1.109:3001/api/search/clients?search=${searchText}`)
+        const response = await axios.get(`${this.baseURL}/search/clients?search=${searchText}`)
         return response.data;
   
       } catch (error) {
